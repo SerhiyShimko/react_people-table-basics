@@ -6,23 +6,23 @@ import { PersonLink } from '../components/PersonLink';
 
 export const PeoplePage = () => {
   const [allPeople, setAllPeople] = useState<Person[] | null>(null);
-  const [shoowError, setShoowError] = useState(false);
-  const [shoowLoading, setShoowLoading] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
 
   useEffect(() => {
-    setShoowLoading(true);
+    setShowLoading(true);
     getPeople()
       .then(people => {
         setAllPeople(people);
       })
       .catch(() => {
-        setShoowError(true);
+        setShowError(true);
         setTimeout(() => {
-          setShoowError(false);
+          setShowError(false);
         }, 5000);
       })
       .finally(() => {
-        setShoowLoading(false);
+        setShowLoading(false);
       });
   }, []);
 
@@ -32,9 +32,9 @@ export const PeoplePage = () => {
 
       <div className="block">
         <div className="box table-container">
-          {shoowLoading && <Loader />}
+          {showLoading && <Loader />}
 
-          {shoowError && (
+          {showError && (
             <p data-cy="peopleLoadingError" className="has-text-danger">
               Something went wrong
             </p>

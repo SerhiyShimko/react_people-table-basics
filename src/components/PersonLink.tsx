@@ -13,7 +13,6 @@ export const PersonLink: React.FC<Props> = ({ person }) => {
   return (
     <tr
       data-cy="person"
-      key={person.slug}
       className={classNames({
         'has-background-warning': slug === person.slug,
       })}
