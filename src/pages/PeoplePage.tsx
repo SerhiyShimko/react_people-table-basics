@@ -2,12 +2,14 @@ import { useEffect, useState } from 'react';
 import { Loader } from '../components/Loader';
 import { getPeople } from '../api';
 import { Person } from '../types';
-import { PersonLink } from '../components/PersonLink';
+import { PeopleTable } from '../components/PeopleTable';
+import { useParams } from 'react-router-dom';
 
 export const PeoplePage = () => {
   const [allPeople, setAllPeople] = useState<Person[] | null>(null);
   const [showError, setShowError] = useState(false);
   const [showLoading, setShowLoading] = useState(false);
+  const { slug } = useParams();
 
   useEffect(() => {
     setShowLoading(true);
@@ -45,40 +47,7 @@ export const PeoplePage = () => {
           )}
 
           {allPeople && allPeople.length > 0 && (
-            <table
-              data-cy="peopleTable"
-              className="table is-striped is-hoverable is-narrow is-fullwidth"
-            >
-              <thead>
-                <tr>
-                  <th>Name</th>
-                  <th>Sex</th>
-                  <th>Born</th>
-                  <th>Died</th>
-                  <th>Mother</th>
-                  <th>Father</th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {allPeople.map(personOld => {
-                  const mother = allPeople.find(
-                    onePerson => onePerson.name === personOld.motherName,
-                  );
-                  const father = allPeople.find(
-                    onePerson => onePerson.name === personOld.fatherName,
-                  );
-
-                  const person = {
-                    ...personOld,
-                    mother: mother,
-                    father: father,
-                  };
-
-                  return <PersonLink person={person} key={person.slug} />;
-                })}
-              </tbody>
-            </table>
+            <PeopleTable allPeople={allPeople} slug={slug} />
           )}
         </div>
       </div>
